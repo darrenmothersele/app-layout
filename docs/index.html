@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>App Layout</title>
+    <link rel="stylesheet" href="style.css">
+
+    <script src="https://unpkg.com/interactjs/dist/interact.min.js"></script>
+</head>
+<body class="antialiased bg-gray-100 text-gray-900 w-screen h-screen overflow-hidden">
+
+<main id="app-main" class="bg-white p-6">
+    <div class="mt-4 mx-auto max-w-sm">
+        <p class="mb-2">
+            This is an example of creating an App layout using CSS Grid, with resizable areas.
+            Try resizing the MENU and SIDEBAR regions. The customised size is saved in browser
+            localStorage and reloaded on subsequent visits.
+        </p>
+        <p>
+            You can view the source code for this example on
+            <a class="hover:underline text-blue-700" href="https://github.com/darrenmothersele/app-layout">GitHub</a>.
+        </p>
+    </div>
+</main>
+<header id="app-header" class="select-none bg-gray-200 border-b px-3 py-1">
+    <p>HEADER</p>
+</header>
+<nav id="menu" class="select-none border-r">
+    <div id="menu-panel" class="h-full text-sm px-4 py-2">
+        <p>MENU</p>
+    </div>
+</nav>
+<div id="toolbar" class="select-none bg-gray-600 text-gray-100">
+    <p style="transform: translate(1.5rem) rotate3d(0,0,1, 90deg); transform-origin: bottom left;">TOOLBAR</p>
+</div>
+<aside id="sidebar" class="select-none border-l">
+    <div id="sidebar-panel" class="h-full text-sm px-4 py-2">
+        <p>SIDEBAR</p>
+    </div>
+</aside>
+<footer id="app-footer" class="select-none bg-gray-200 border-t px-3 py-1">
+    <p>FOOTER</p>
+</footer>
+
+<script>
+  function attachResize(el, name, edges) {
+    let width = 160;
+
+    const savedValue = localStorage.getItem(`appResize-${name}-width`);
+    if (!!savedValue) {
+      width = JSON.parse(savedValue);
+    }
+    el.setAttribute('style', `width: ${width}px`);
+
+    interact(el).resizable({
+      edges: edges,
+      modifiers: [
+        interact.modifiers.restrictSize({
+          min: { width: 160 }
+        })
+      ],
+      onmove: (moveEvent) => {
+        width = moveEvent.rect.width;
+        el.setAttribute('style', `width: ${width}px`);
+      },
+      onend: () => {
+        localStorage.setItem(`appResize-${name}-width`, JSON.stringify(width));
+      }
+    });
+  }
+
+  document.onreadystatechange = function () {
+    if (document.readyState === 'complete') {
+      const menuEl = document.getElementById('menu-panel');
+      const sidebarEl = document.getElementById('sidebar-panel');
+
+      attachResize(menuEl, 'menu', { right: true });
+      attachResize(sidebarEl, 'sidebar', { left: true });
+    }
+  };
+</script>
+</body>
+</html>

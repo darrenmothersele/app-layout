@@ -1,0 +1,22 @@
+{
+  "name": "app-layout",
+  "version": "0.1.0",
+  "description": "Example of how to create an Application UI in HTML, CSS, and JS",
+  "devDependencies": {
+    "autoprefixer": "^9.7.4",
+    "cssnano": "^4.1.10",
+    "live-server": "^1.2.1",
+    "postcss": "^7.0.26",
+    "postcss-cli": "^7.1.0",
+    "postcss-import": "^12.0.1",
+    "tailwindcss": "^1.1.4"
+  },
+  "scripts": {
+    "build:dev": "postcss style.css -o docs/style.css",
+    "build:prod": "NODE_ENV=production postcss style.css -o docs/style.css",
+    "start": "live-server docs"
+  },
+  "keywords": [],
+  "author": "Darren Mothersele <darren@darrenmothersele.com>",
+  "license": "MIT"
+}
